@@ -1,0 +1,16 @@
+pcm.dsnooped {
+    type dsnoop
+		ipc_key 71
+    slave {
+        pcm "hw:CARD=U0x47f0xad01,DEV=0" 
+        channels 1 
+    }
+}
+
+pcm.rate_convert {
+	type rate
+	slave {
+		pcm "hw:CARD=U0x47f0xad01,DEV=0"
+		rate 48000
+	}
+}
