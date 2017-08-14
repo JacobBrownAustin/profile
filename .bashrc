@@ -9,13 +9,15 @@ parseGitBranch() {
      git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 
+PROMPT_COMMAND='BRANCH=$(parseGitBranch);'
+
 if [ "$TERM" = "xterm" ]; then
-  PS1="\[\033]2;\u@\h \w\007\033]1;\h\007\]\[\033[0;35m\]\[\033[1;35m\][\[\033[1;36m\]\u\[\033[0m\]@\[\033[34;1m\]\h \[\033[32m\]\w\033[31m\]\$(parseGitBranch)\[\033[1;35m\]]\[\033[0m\] "
+  PS1="\[\033]2;\u@\h \w\007\033]1;\h\007\]\[\033[0;35m\]\[\033[1;35m\][\[\033[1;36m\]\u\[\033[0m\]@\[\033[34;1m\]\h \[\033[32m\]\w\[\033[31m\]\$BRANCH\[\033[1;35m\]]\[\033[0m\] "
 else 
   PS1="\[\033[1;35m\][\[\033[1;36m\]\u\[\033[0m\]@\[\033[34;1m\]\h \[\033[32m\]\w\[\033[1;35m\]]\[\033[0m\] "
 fi
 if [ "$TERM" = "xterm-color" ]; then
-  PS1="\[\033]2;\u@\h \w\007\033]1;\h\007\]\[\033[0;35m\]\[\033[1;35m\][\[\033[1;36m\]\u\[\033[0m\]@\[\033[34;1m\]\h \[\033[32m\]\w\033[31m\]\$(parseGitBranch)\[\033[1;35m\]]\[\033[0m\] "
+  PS1="\[\033]2;\u@\h \w\007\033]1;\h\007\]\[\033[0;35m\]\[\033[1;35m\][\[\033[1;36m\]\u\[\033[0m\]@\[\033[34;1m\]\h \[\033[32m\]\w\[\033[31m\]\$BRANCH\[\033[1;35m\]]\[\033[0m\] "
 fi 
 #ROOT export PS1='\[\033]2;\u@\h \w\007\033]1;\h\007\]\[\033[0;35m\]\[\033[1;35m\][\[\033[1;31m\]\u\[\033[0m\]@\[\033[34;1m\]\h \[\033[32m\]\w\[\033[1;35m\]]\[\033[0m\]'
 
@@ -89,4 +91,13 @@ alias mv='mv -i'
 #avconv -i "<infile>" -vf scale="trunc(oh*a/2)*2:360" -c:v libx264 -c:a libvo_aacenc -ac 2 -b:a 96k  -threads auto "done/<outfile>.mp4"
 
 #KUT # mplayer http://pubint.ic.llnwd.net/stream/pubint_kut
+
+
+#TODO: Is there a way we can check to see if this is already sourced before this .bashrc is run?
+if [ -f /usr/share/bash-completion/completions/git ]; then
+	source /usr/share/bash-completion/completions/git
+fi
+
+#TODO need to confirm that vim is in path first
+export EDITOR=vim
 
